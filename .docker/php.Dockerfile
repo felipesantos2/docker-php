@@ -1,4 +1,4 @@
-FROM php:8.4.12-alpine3.22
+FROM php:8.4.12-fpm-alpine3.21
 
 WORKDIR /usr/local/apache2/htdocs
 

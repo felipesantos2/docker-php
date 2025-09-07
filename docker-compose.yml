@@ -11,6 +11,12 @@ services:
       - 8080:80
     volumes:
       - .:/usr/local/apache2/htdocs/
+    networks:
+      - php
+    depends_on:
+      php:
+        condition: service_healthy
+        restart: true
 
   php:
     container_name: php
@@ -20,6 +26,15 @@ services:
     restart: always
     volumes:
       - .:/usr/local/apache2/htdocs/
+    networks:
+      - php
+    healthcheck:
+      test: ["CMD", "php", "--version"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
+
     
 # database:
 #   restart: always
@@ -29,3 +44,6 @@ services:
 
 volumes:
   database: {}
+networks:
+  php:
+    driver: bridge
