@@ -10,7 +10,8 @@ services:
     ports:
       - 8080:80
     volumes:
-      - .:/usr/local/apache2/htdocs/
+      - .:/usr/local/apache2/htdocs
+      - .docker/httpd.conf:/usr/local/apache2/conf/httpd.conf
     networks:
       - php
     depends_on:
@@ -25,7 +26,7 @@ services:
       dockerfile: php.Dockerfile
     restart: always
     volumes:
-      - .:/usr/local/apache2/htdocs/
+      - .:/usr/local/apache2/htdocs
     networks:
       - php
     healthcheck:
@@ -35,16 +36,15 @@ services:
       start_period: 30s
       timeout: 10s
 
-  database:
+  db:
     image: mysql:8.0.43
     container_name: mysql
     restart: always
     volumes:
       - 'mysql:/var/lib/mysql'
     environment:
-      MYSQL_DATABASE: docker
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
-      MYSQL_ROOT_PASSWORD: qwr34r34
+      MYSQL_DATABASE:  docker
+      MYSQL_ROOT_PASSWORD: 657u65
     ports:
       - 3306:3306
     networks:
@@ -55,6 +55,7 @@ services:
       retries: 5
       start_period: 30s
       timeout: 10s
+    command: --default-authentication-plugin=mysql_native_password
 
   phpmyadmin:
     image: phpmyadmin:5.2
@@ -67,9 +68,22 @@ services:
     environment:
       PMA_ARBITRARY: 1
     depends_on:
-      database:
+      db:
         condition: service_healthy
         restart: true
+
+  adminer:
+    image: adminer:5.3.0
+    restart: always
+    environment:
+      ADMINER_DEFAULT_SERVER: db:3306
+      ADMINER_DESIGN: brade
+    ports:
+      - 3001:8080
+    networks:
+      - php
+    depends_on:
+      - db
 
 
 volumes:

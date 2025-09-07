@@ -6,9 +6,11 @@ WORKDIR /usr/local/apache2/htdocs
 
 RUN apk update && apk upgrade
 
-RUN apk add apache2-proxy php-fpm
+RUN apk add --no-cache apache2-proxy php-fpm
 
-RUN apk add --no-cache bash wget curl
+RUN apk add --no-cache bash \ 
+    wget \
+    curl
 
 COPY . .
 
