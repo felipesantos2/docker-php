@@ -4,8 +4,6 @@ WORKDIR /usr/local/apache2/htdocs
 
 RUN apk update && apk upgrade
 
-RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable pdo_mysql
-
 # update alpine linux -> apk
 RUN apk add --no--cache \
     libpng-dev \
@@ -24,6 +22,11 @@ RUN apk add --no--cache \
     --virtual .build-deps gcc g++ make
 
 RUN apk add --no-cache nodejs-current npm
+
+
+RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable pdo_mysql
+
+RUN apk add --no-cache zip unzip sqlite
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php --  --install-dir=/usr/local/bin --filename=composer

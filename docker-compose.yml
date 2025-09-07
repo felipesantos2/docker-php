@@ -35,15 +35,46 @@ services:
       start_period: 30s
       timeout: 10s
 
-    
-# database:
-#   restart: always
+  database:
+    image: mysql:8.0.43
+    container_name: mysql
+    restart: always
+    volumes:
+      - 'mysql:/var/lib/mysql'
+    environment:
+      MYSQL_DATABASE: docker
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_ROOT_PASSWORD: qwr34r34
+    ports:
+      - 3306:3306
+    networks:
+      - php
+    healthcheck:
+      test: ["CMD", "mysql"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
 
-# phpmyadmin:
-#   restart: always
+  phpmyadmin:
+    image: phpmyadmin:5.2
+    container_name: phpmyadmin
+    restart: always
+    ports:
+      - 3000:80
+    networks:
+      - php
+    environment:
+      PMA_ARBITRARY: 1
+    depends_on:
+      database:
+        condition: service_healthy
+        restart: true
+
 
 volumes:
-  database: {}
+  mysql: {}
+
 networks:
   php:
     driver: bridge
