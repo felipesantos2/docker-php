@@ -1,27 +1,26 @@
 services:
-  nginx:
+  webserver:
     image: nginx:1.29.1-alpine
     container_name: nginx
     restart: always
     volumes:
       - .:/var/www/html
-      - .docker/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx_default.conf:/etc/nginx/conf.d/default.conf
     ports:
       - 8080:80
     networks:
-      - dphp
+      - skeleton
+
   php:
     container_name: php
     build:
-      context: .docker
-      dockerfile: p.Dockerfile
+      context: .
+      dockerfile: Dockerfile
     restart: always
     volumes:
       - .:/var/www/html
     networks:
-      - dphp
-    healthcheck:
-      test: ["CMD", "php", "--version"]
+      - skeleton
 
   db:
     image: mysql:8.0
@@ -35,10 +34,9 @@ services:
     ports:
       - 3306:3306
     networks:
-      - dphp
+      - skeleton
     healthcheck:
       test: ["CMD", "mysql"]
-
   adminer:
     image: adminer:5.3.0
     container_name: adminer
@@ -49,14 +47,14 @@ services:
     ports:
       - 3001:8080
     networks:
-      - dphp
+      - skeleton
     depends_on:
       - db
-
 
 volumes:
   mysql: {}
 
 networks:
-  dphp:
+  skeleton:
+    name: skeleton
     driver: bridge
