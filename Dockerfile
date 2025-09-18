@@ -1,4 +1,4 @@
-FROM php:8.4.6-fpm-alpine3.21
+FROM php:8.4.12-fpm-alpine3.21
 
 LABEL maintainer="<github.com/felipesantos2>"
 
@@ -17,14 +17,11 @@ RUN apk update && apk add --no--cache \
     bash \
     --virtual .build-deps gcc g++ make
 
-# Install node and npm
 #(link) https://www.ubuntumint.com/install-nodejs-alpine-linux
 RUN apk add --no-cache nodejs-current npm
 
 # Install php extensions
 RUN docker-php-ext-install gd pdo pdo_mysql
-
-RUN apk add --no-cache postgresql-dev && docker-php-ext-install pdo_pgsql
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php --  --install-dir=/usr/local/bin --filename=composer
