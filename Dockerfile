@@ -1,9 +1,30 @@
-FROM php:8.4.12-alpine3.22
+FROM php:8.4.6-fpm-alpine3.21
 
-WORKDIR /var/www/html
+LABEL maintainer="<github.com/felipesantos2>"
 
-RUN apk update && apk upgrade 
+# update alpine linux -> apk
+RUN apk update && apk add --no--cache \
+    libpng-dev \
+    libjpeg-turbo-dev \
+    freetype-dev \
+    libzip-dev \
+    unzip \
+    icu-dev \
+    libxml2-dev \
+    openssl-dev \
+    libpq-dev \
+    git \
+    bash \
+    --virtual .build-deps gcc g++ make
 
-RUN apk add --no-cache bash wget curl git vim
+# Install node and npm
+#(link) https://www.ubuntumint.com/install-nodejs-alpine-linux
+RUN apk add --no-cache nodejs-current npm
 
-COPY . .
+# Install php extensions
+RUN docker-php-ext-install gd pdo pdo_mysql
+
+RUN apk add --no-cache postgresql-dev && docker-php-ext-install pdo_pgsql
+
+# Install composer
+RUN curl -sS https://getcomposer.org/installer | php --  --install-dir=/usr/local/bin --filename=composer
