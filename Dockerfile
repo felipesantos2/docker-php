@@ -2,6 +2,8 @@ FROM php:8.4.12-fpm-alpine3.21
 
 LABEL maintainer="<github.com/felipesantos2>"
 
+WORKDIR /var/www/html
+
 # update alpine linux -> apk
 RUN apk update && apk add --no--cache \
     libpng-dev \

@@ -1,5 +1,4 @@
-serviceschmod +x exec
-# echo ok!:
+services:
   webserver:
     image: nginx:1.27-alpine3.21-slim
     container_name: nginx

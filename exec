@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # chmod +x exec
-# echo ok!
-docker exec -it php84 bash
+docker exec -it php84 $1
+# ./exec bash
