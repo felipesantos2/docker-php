@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# chmod +x down
+docker compose down
