@@ -27,3 +27,5 @@ RUN docker-php-ext-install gd pdo pdo_mysql
 
 # Install composer
 RUN curl -sS https://getcomposer.org/installer | php --  --install-dir=/usr/local/bin --filename=composer
+
+RUN composer self-update

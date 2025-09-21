@@ -2,4 +2,3 @@
 
 # chmod +x exec
 docker exec -it php84 $1
-# ./exec bash
