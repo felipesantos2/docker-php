@@ -3,19 +3,15 @@
 <?php
 require __DIR__.'/vendor/autoload.php';
 
+use app\commands\TesteCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\SingleCommandApplication;
 
-// $application = new Application();
+$application = new Application();
 
-(new SingleCommandApplication())
-    ->setCode(function (OutputInterface $output, #[Argument] string $foo = 'The directory', #[Option] string $bar = ''): int {
-        echo "\nOlá, mundo! \n";
-        return 0;
-    })
-    ->run();
+$application->add(new TesteCommand());
 
-// $application->run();
+$application->run();

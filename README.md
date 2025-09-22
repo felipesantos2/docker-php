@@ -20,3 +20,11 @@ bash bash
 bash exec
 ```
 [Project](/tree/v2)
+
+
+``` bash
+alias up='sh $([ -f up ] && echo up || echo ./up)'
+alias down='sh $([ -f down ] && echo down || echo ./down)'
+alias down='sh $([ -f build ] && echo build || echo ./build)'
+alias down='sh $([ -f bash ] && echo bash || echo ./bash)'
+```

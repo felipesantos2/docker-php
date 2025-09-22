@@ -1,4 +1,4 @@
-FROM php:8.4.12-fpm-alpine3.22
+FROM php:8.4.12-fpm-alpine3.21
 
 LABEL maintainer="<github.com/felipesantos2>"
 
@@ -22,9 +22,8 @@ RUN apk update && apk add --no--cache \
     --virtual .build-deps gcc g++ make
 
 #(link) https://www.ubuntumint.com/install-nodejs-alpine-linux
-# RUN apk add --no-cache nodejs-current npm
 
-RUN apk add --no-cache node-current npm
+RUN apk add --no-cache nodejs-current npm
 
 # Install php extensions
 RUN docker-php-ext-install gd pdo pdo_mysql
